@@ -1,4 +1,4 @@
 import { getProducts } from "../modules/data.mjs";
 
 
-getProducts( (products) => {console.log(products)})
+getProducts().then(products => console.log(products)) 
