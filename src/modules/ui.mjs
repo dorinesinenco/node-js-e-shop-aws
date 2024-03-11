@@ -1,5 +1,5 @@
 import readline from 'readline'
-import { cart, getProducts } from "./data.mjs";
+import { cart, getProducts, saveCart } from "./data.mjs";
 
 
 
@@ -24,18 +24,21 @@ const renderMainMenu = () => {
     console.log("2. Cart")
     console.log("0. Exit")
 
-    io.question("choose > ", answer => {
+    io.question("choose > ", async (answer) => {
         let option = parseInt(answer)
         switch (option) {
           case 1:
 
-            getProducts().then((products) => {
-              renderCatalog(products, (n, product, q) => {
-                cart.items.push({ n, product, q });
-                renderMainMenu();
-              });
-            });
+            let products = await getProducts();
+            
+            renderCatalog(products, async (n, product, q) => {
+              cart.items.push({ n, product, q });
 
+              const saved = await saveCart(cart);
+              
+              renderMainMenu();
+            });
+           
 
             break;
           case 2:
@@ -73,7 +76,7 @@ const renderCart = (cart) => {
     console.log("0. Exit to Main menu");
 
 
-    io.question("choose > ", (answer) => {
+    io.question("choose > ", async (answer) => {
         let option = parseInt(answer);
         switch (option) {
         case 1:
@@ -84,11 +87,11 @@ const renderCart = (cart) => {
             break;
 
         case 0:
-            getProducts().then((products) => {
-              renderCatalog(products, (n, product, q) => {
-                cart.items.push({ n, product, q });
-                renderMainMenu();
-              });
+            let products = await getProducts();
+
+            renderCatalog(products, (n, product, q) => {
+              cart.items.push({ n, product, q });
+              renderMainMenu();
             });
             break;
         }

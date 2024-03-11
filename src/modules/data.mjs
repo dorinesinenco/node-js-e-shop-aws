@@ -1,22 +1,21 @@
-import {readFile} from 'node:fs/promises'
+import {readFile, writeFile} from 'node:fs/promises'
 
 
 
 
 
-const getProducts = () => {
-    return readFile("./storage/products.json")
-      .then(data => {
-        let products = JSON.parse(data.toString());
-        return products
-      })
-      .catch(err => {
-        console.log("Error: cannot read products!");
-      });
+const getProducts = async () => {
+    let data = await readFile("./storage/products.json");
+    let products = JSON.parse(data.toString());
+
+    return products;
 }
 
 
-
+const saveCart = async (cart) => {
+    await writeFile("./storage/cart.json", JSON.stringify(cart,null,2) );
+    return true
+}
 
 
 
@@ -44,4 +43,4 @@ const cart = {
 }
 
 
-export { getProducts, cart };
+export { getProducts, saveCart, cart };

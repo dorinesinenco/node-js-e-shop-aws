@@ -155,3 +155,31 @@ fs.readFile(....,   )
                   .
                   v
                  products ?     
+
+
+
+
+
+
+
+
+HW1: make a function called - getCart()
+     which using promises will load the cart at the beginning  
+
+
+
+
+
+
+
+
+
+
+
+
+## Node HTTP / server
+    > http (s): client / server
+
+
+
+
