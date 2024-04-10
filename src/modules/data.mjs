@@ -1,6 +1,6 @@
 import {readFile, writeFile} from 'node:fs/promises'
 
-
+// HW1: REWRITE THIS CODE USING DB
 
 
 

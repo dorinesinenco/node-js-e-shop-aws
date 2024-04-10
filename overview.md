@@ -451,3 +451,76 @@ stripe / gateway
 
 
  
+
+
+
+
+# e-shop / docker / postgresql
+  > docker
+  > docker-compose
+  
+HOST (linux)
+  \
++--+-------------------------------------------------------------+
+                                       docker-compose.yml
+                                             |
+                                           config
+                                             |  
+  node-pgdb (container)                      v
+      \                                    docker   <-----  postgres:16.2-bullseye (image) <--- docker-hub
+  +----+-----------------------+             |
+  |                            |             |
+  |                <-------------------------+
+  |                            |
+  |                            |
+  |     postgresql-server      |
+  |      |   |      |          | ports
+  |      |   |      +-- 5432 ------> 10000  <---- psql - no connection
+  |      |   |                 |
+  |      |   +-- e_shop_db     |
+  |      |                     |
+  |      v                     | volumes
+  | /var/lib/postgresql/data -------> /data
+  |                            |
+  |                            |
+  |                            |
+  +----------------------------+
+
+
+
+    CASCADING
+     |
+     |  products
+     +-> +-- id         (PK)
+     |   +-- name
+     |   +-- price_amout
+     |   +-- price_currency
+     |   +-- image
+     |  
+     |  orders
+     |   +-- id         (PK)
+     +-- +-- productId 
+         +-- fullName
+         +-- emailAddress
+         +-- phoneNumber
+         +-- payed
+
+
+
+
+
+
+
+
+     nodejs
+       ^
+       |
+      run
+       |
++------+------+
+|             |
+|             |
+|    app (js) <---------- postgres ---------> postgresql-server
+|             |        (driver/connector)
+|             |
++-------------+
