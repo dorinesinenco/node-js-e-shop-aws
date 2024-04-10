@@ -11,6 +11,32 @@ const getProducts = async () => {
     return products;
 }
 
+const getProductById = async id => (await getProducts()).find( product => product.id === id)
+
+
+const saveOrder = async (order) => {
+    let data = await readFile("./storage/orders.json");
+    let orders = JSON.parse(data.toString());
+    orders.push(order);
+    data = JSON.stringify(orders,null,2)
+    writeFile("./storage/orders.json",data);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const saveCart = async (cart) => {
     await writeFile("./storage/cart.json", JSON.stringify(cart,null,2) );
@@ -38,9 +64,4 @@ const saveCart = async (cart) => {
 
 
 
-const cart = {
-  items: []
-}
-
-
-export { getProducts, saveCart, cart };
+export { getProducts, saveCart, getProductById, saveOrder };

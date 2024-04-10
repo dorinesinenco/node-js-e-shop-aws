@@ -1,0 +1,19 @@
+{
+  "name": "e-shop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.mjs",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dorin E.",
+  "license": "ISC",
+  "dependencies": {
+    "stripe": "^14.21.0",
+    "twig": "^1.17.1",
+    "uuid": "^9.0.1"
+  }
+}

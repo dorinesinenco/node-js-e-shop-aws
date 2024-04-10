@@ -183,3 +183,271 @@ HW1: make a function called - getCart()
 
 
 
+
+LOCAL REPO
+
+
+init        commit       commit         commit
+x-----------x------------x--------------x-------------> master
+                                         \
+                                          ----- http-server-callback
+
+
+
+                                                   host machine 
+                                                    /
+                       +---------------------------+---------+
+BROWSER                |                         node        | 
+-----------+           |                          ^          | 
+           |           |                main.mjs  |          | 
+           |           |    3000       +-----------------+   | 
+           |           |  +----------->| server          |   | 
+           |  HTTP     | /             .     ^           .   | 
+           +--- req -->+ localhost           |               |   handler
+                       | 127.0.0.1           +-------------------- (req,res) 
+                       | +-----------  zoom                  .           |
+                       |    1052       app1                  .           |
+                       |                                     .           v
+  
+
+
+
+                        HTTP
+
+       | ------------- req --------------> |       
+CLIENT |                                   | SERVER 
+       | <------------ res --------------- | 
+
+                      [H]
+                      [H]
+                      [H]
+                      [B]
+                      [B]
+                      [B]
+                      [B]
+                      [B]
+
+
+
+
+
+
+
+
+
+
+# TEMPLATING ENGINES
+ 
+   template
+      |
+      v
++-----------+
+|           |
+|  engine   | <-------- DATA
+|           |
++-----------+
+      |
+      v
+    rendered result  
+
+
+
+
+
+
+# TODO: add images to products 
+
+
+
+  |
+  v
+ GET "/images/1.webp" 
+ GET "/images/2.webp" 
+ GET "/images/no-photo.webp" 
+  |
+  v
+req.url.startsWith("/images") ?
+  |
+  true
+  |
+  v 
+    
+
+
+
+
+
+USER 
+ |
+ v
+home.html (catalog) 
+        |
+        +-- Product 1
+              |
+              +-- <a href="/buy/1">  ------------> /buy/xxxxx
+                                                      |
+        +-- Product 2                                 +<---- product data
+              |                                       v 
+              +-- <a href="/buy/2">                 order.html
+                                                      |
+        +-- Product 3                                 v
+              ...                                   USER
+                                                      |
+                                                      v
+                                                     PAY   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PAYMENT GATEWAYS
+  > onsite
+  > offsite
+
+
+  payment link
+
+
+
+
+
+
+
+CLIENT                                                 SERVER
+ 
+    -------------- req GET ----- "/buy/1" -----------> req.url
+                                                         v
+                                                        id   
+                                                         v
+                                                         V   product = getProductById(id)  <--- data
+                                                         v     v
+                                        render(order.html, { product: product }) 
+                                                         v
+form <------------ res HTML -----------------------------+                                           
+|
+v
+fills data
+|
+v
+SUBMIT
+v
+name="productId"    | H
+name="fullName"     |
+name="emailAddress" | --> /pay?fullName=John Doe&emailAddress=... -----+
+name="phoneNumber"  |                                                  | 
+                                                                       v
+                                                    /pay?fullName=John&emailAddress=jd%40example.host&...
+                                                        |
+                                                        v
+                                                      fullName=John&emailAddress=jd%40example.host&...
+                                                        |
+                                                       .parse() 
+                                                        v  
+                                                        {
+                                                          fullName: ...,
+                                                          ...
+                                                        }
+
+
+
+
+                  SHOW FORM                        PROCESS FORM
+              
+              s              e                    s             e
+              +--- req ------+                    +--- req -----+     
+              |              |                    |      v      |
+              |     id       v                    |     id      v
+x-------------x==============x--------------------x=============x--------------------------->
+                             |                    ^
+                             v                    |
+                             +--------------------+
+                                 id (input > form)
+                                    window
+                                    CLIENT
+
+
+
+
+
+
+HOW TO SAVE
+-------------------
+                         parse
+                          |
+orders.json ----- read ---+-> [{},{}]
+                                |
+                                v
+                              .push()  
+                                |
+                                v
+                              [{},{},{}]  
+                                |
+                                v
+orders.json <--- write ----+----+                                
+                           |
+                         stringify  
+
+
+
+
+
+GET --------- req ?productId=1&fullName=John+Doe+101&emailAddress=jd101%40example.host&phoneNumber=123456101 --------->
+                          |
+                         querystring.parse() 
+                          v
+                         data = {
+                          id: ...       <------------- uuid()
+                          payed: ...    <------------- false
+                          productId: ...
+                          fullName: ...
+                          emailAddress: ...
+                          phoneNumber: ...
+                         }
+                          |
+                          v
+                         saveOrder() 
+                          |
+                          v
+                         orders.json 
+
+
+
+
+
+
+
+
+
+
+
+
+stripe / gateway
+
+  > payment link + redirect
+
+
+
+
+  app ------- api / info / product + price + payment link --------->  STRIPE
+                                               |
+      <------------ url -----------------------+
+
+ client -------- url ---------------------------+
+                                                |
+                                               pay/cancel
+                                                |
+                                                v
+                                                  
+
+
+ 
