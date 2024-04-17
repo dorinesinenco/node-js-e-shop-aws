@@ -1,25 +1,29 @@
-import {readFile, writeFile} from 'node:fs/promises'
-
+// import {readFile, writeFile} from 'node:fs/promises'
+import postgres from "postgres";
+const sql = postgres(
+  "postgres://postgres:qazwsx@localhost:10000/e_shop_db",
+  {}
+);
 // HW1: REWRITE THIS CODE USING DB
 
 
 
 const getProducts = async () => {
-    let data = await readFile("./storage/products.json");
-    let products = JSON.parse(data.toString());
-
-    return products;
+  let products = await sql`SELECT * FROM products;`
+  return products
 }
 
-const getProductById = async id => (await getProducts()).find( product => product.id === id)
+const getProductById = async (id) => (await sql`SELECT * FROM products WHERE id = ${id};`).shift();
 
 
 const saveOrder = async (order) => {
-    let data = await readFile("./storage/orders.json");
-    let orders = JSON.parse(data.toString());
-    orders.push(order);
-    data = JSON.stringify(orders,null,2)
-    writeFile("./storage/orders.json",data);
+    await sql`INSERT INTO orders (
+       id, productId, fullName, emailAddress, phoneNumber
+    ) VALUES (${order.id}, ${order.productId}, ${order.fullName}, ${order.emailAddress}, ${order.phoneNumber})`;
+}
+
+const confirmOrder = async (id) => {
+    await sql`UPDATE orders SET payed = true WHERE id = ${id};`;
 }
 
 
@@ -64,4 +68,4 @@ const saveCart = async (cart) => {
 
 
 
-export { getProducts, saveCart, getProductById, saveOrder };
+export { getProducts, saveCart, getProductById, saveOrder, confirmOrder };

@@ -447,7 +447,7 @@ stripe / gateway
                                                pay/cancel
                                                 |
                                                 v
-                                                  
+        <------------------- redirect ----------+                                           
 
 
  
